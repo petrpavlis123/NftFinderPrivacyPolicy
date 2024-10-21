@@ -1,1 +1,33 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Spouští se při pushi na branch main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Upravte podle potřeby
+
+      - name: Install dependencies
+        run: npm install  # Případně upravte, pokud nemáte závislosti
+
+      - name: Build
+        run: npm run build  # Pokud používáte buildovací nástroj, jinak tuto část můžete přeskočit
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build  # Upravte podle cesty k vaší HTML stránce
+          publish_branch: gh-pages  # Branch, do kterého se nasadí
 
